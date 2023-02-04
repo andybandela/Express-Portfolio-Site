@@ -1,0 +1,10 @@
+<%- include('partials/header') %> 
+<%- include('partials/main-nav')  %> 
+
+<main class="container">
+    <div class="mt-4 p-5 bg-light  rounded">
+        <h1><%= message %> : <%= error.status %></h1>
+        <pre><%= error.stack %></pre>
+    </div>
+  </main>
+<%- include('partials/footer') %> 
