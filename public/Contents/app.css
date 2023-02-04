@@ -1,1 +1,11 @@
 /* custom css*/
+#logo{
+    width: 8%;
+    height: 50%;
+}
+#butn{
+    border-radius: 30%;
+}
+#profile{
+    width: 20%;
+}
