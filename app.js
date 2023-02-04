@@ -1,11 +1,16 @@
+//Importing the packages installed to use in the project 
 let createError = require('http-errors');
 let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 
+//Importing middleware from the routes folder
 let indexRouter = require('./routes/index');
-let usersRouter = require('./routes/users');
+let aboutRouter = require('./routes/about');
+let contactRouter = require('./routes/contact');
+let projectRouter = require('./routes/projects');
+let servicesRouter = require('./routes/services');
 
 let app = express();
 
@@ -20,8 +25,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname,'node_modules')));
 
+//Routing requests to the appropriate route using the imported middleware
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/users', aboutRouter);
+app.use('/about',aboutRouter);
+app.use('/contact',contactRouter);
+app.use('/projects',projectRouter);
+app.use('/services',servicesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
