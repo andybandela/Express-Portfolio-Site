@@ -27,7 +27,6 @@ app.use(express.static(path.join(__dirname,'node_modules')));
 
 //Routing requests to the appropriate route using the imported middleware
 app.use('/', indexRouter);
-app.use('/users', aboutRouter);
 app.use('/about',aboutRouter);
 app.use('/contact',contactRouter);
 app.use('/projects',projectRouter);
