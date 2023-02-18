@@ -1,0 +1,33 @@
+<%- include('../partials/header') %>
+<%- include('../partials/main-nav') %>
+
+<div class="container">
+  <div class="mt-4 p-5 bg-light  rounded">
+    <h3>Add a new contact</h3>
+      <form action="/contact-list/add" method="post">
+        <div class="mb-3">
+          <label for="contactName" class="form-label">Name</label>
+          <input type="text" class="form-control" id="contactName" name="contactName" placeholder="John">
+        </div>
+        <div class="mb-3">
+          <label for="contactNumber" class="form-label">Contact Number</label>
+          <input type="text" class="form-control" id="contactNumber" name="contactNumber" placeholder="+1 234 567 8901">
+        </div>
+        <div class="mb-3">
+          <label for="contactEMail" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="contactEMail" name="contactEMail" placeholder="name@example.com">
+        </div>
+        <br>
+        <br>
+        <div class="mb-3">
+          <button type="submit" class="btn btn-primary">Add Contact</button>
+          <a href="/contact-list"><button type="button" class="btn btn-warning"> Cancel</button></a>
+        </div>
+        
+      </form>
+      
+    </div>
+</div>
+
+<%- include('../partials/bottom-nav') %>
+<%- include('../partials/footer') %>

@@ -1,0 +1,42 @@
+<%- include('../partials/header') %>
+<%- include('../partials/main-nav') %>
+
+<!-- Main Content-->
+<div class="container">
+    <div class="row">
+        <div class="mt-4 p-5 bg-light rounded">
+            <h1><%= title %></h1>
+            <br>
+            <table class="table table-bordered table-striped">
+                <!-- Table head-->
+                <thead>
+                    <tr>
+                        <th class="text-center" scope="col">Name</th>
+                        <th class="text-center" scope="col">Number</th>
+                        <th class="text-center" scope="col">E-mail Address</th>
+                    </tr>
+                </thead>
+                <!-- Table body-->
+                <tbody>
+                    <% contactList.forEach(contact => { %>
+                        <tr>
+                            <td class="text-center"><%= contact.name %></td>
+                            <td class="text-center"><%= contact.number %></td>
+                            <td class="text-center"><%= contact.email %></td>
+                            <td class="text-center"><a href="/contact-list/update/<%= contact._id %>"><button type="button" class="btn btn-primary">Update</button></a></td>
+                            <td class="text-center"><a href="/contact-list/delete/<%= contact._id %>"><button type="button" class="btn btn-danger">Delete</button></a></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+            <div class="mb-3">
+                <a href="/contact-list/add"><button type="button" class="btn btn-secondary"> Add New Contact</button></a>
+            </div>
+        </div>
+        
+    </div>
+    
+</div> 
+
+<%- include('../partials/bottom-nav') %>
+<%- include('../partials/footer') %>

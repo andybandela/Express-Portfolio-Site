@@ -1,37 +1,54 @@
-//app.js Andy Bandela 301282674 5/02/2023
+//app.js Andy Bandela 301282674 17/02/2023
 //Importing the packages installed to use in the project 
 let createError = require('http-errors');
 let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
+let mongoose = require('mongoose');
+
+//Database setup
+let db = require('./db');
+run();
+//Handling error on initial connection
+ async function run() {
+  try {
+    //Connecting to the database
+    await mongoose.connect(db.uri,db.option);
+    console.log("Connected to Database Server");
+  } catch (error) {
+    //Throwing an error if connection fails
+    console.error(error);
+  }
+}
+//Removing deprecation Warning
+mongoose.set('strictQuery', false);
+
+//handling error after initial connection
+mongoose.connection.on('error', err => {
+  logError(err);
+});
 
 //Importing middleware from the routes folder
-let indexRouter = require('./routes/index');
-let aboutRouter = require('./routes/about');
-let contactRouter = require('./routes/contact');
-let projectRouter = require('./routes/projects');
-let servicesRouter = require('./routes/services');
+let indexRouter = require('../routes/index');
+let conctactListRouter = require('../routes/contacts');
 
 let app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname,'node_modules')));
+app.use(express.static(path.join(__dirname, '../../public')));
+app.use(express.static(path.join(__dirname,'../../node_modules')));
 
 //Routing requests to the appropriate route using the imported middleware
 app.use('/', indexRouter);
-app.use('/about',aboutRouter);
-app.use('/contact',contactRouter);
-app.use('/projects',projectRouter);
-app.use('/services',servicesRouter);
+app.use('/contact-list',conctactListRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
