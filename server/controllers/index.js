@@ -1,4 +1,5 @@
 //index.js Andy Bandela 301282674 17/02/2023
+const e = require('express');
 let express = require('express');
 let router =express.Router();
 let mongoose = require('mongoose');
@@ -7,7 +8,7 @@ let User = require('../models/user');
 
 //Controller handling the Home route
 module.exports.homeDisplay = function(req, res, next) {
-    res.render('index', { title: 'Home' });
+    res.render('index', { title: 'Home',logged: req.user ? req.user.username : "" });
 }
 module.exports.homeRedirect = (req,res,next)=>{
     res.redirect('/');
@@ -15,48 +16,55 @@ module.exports.homeRedirect = (req,res,next)=>{
 
 //Controller handling the About page
 module.exports.aboutDisplay = (req,res,next)=>{
-    res.render('about',{title:"About Me"});
+    res.render('about',{title:"About Me",logged: req.user ? req.user.username : ""});
 }
 
 //Controller handling the Contact page
 module.exports.contactDisplay = (req,res,next)=>{
-    res.render('contact',{title:"Contact Me"});
+    res.render('contact',{title:"Contact Me",logged: req.user ? req.user.username : ""});
 }
 
 //Controller handling the Projects page
 module.exports.projectsDisplay = (req,res,next)=>{
-    res.render('projects',{title:"Projects"});
+    res.render('projects',{title:"Projects",logged: req.user ? req.user.username : ""});
 }
 
 //Controller handling the Services page
 module.exports.servicesDisplay = (req,res,next)=>{
-    res.render('services',{title:"Services"});
+    res.render('services',{title:"Services",logged: req.user ? req.user.username : ""});
 }
 
 //Controllers handling the login page
 module.exports.loginGET = (req,res,next) =>{
     //checking if the user is logged in
     if (!req.user) {
-        res.render('auth/login',{title:"Login"});
+        res.render('auth/login',{title:"Login",logged: req.user ? req.user.username : ""});
     } else {
         res.redirect('/');
     }
 }
 module.exports.loginPOST = async(req,res,next) =>{
-    passport.authenticate('local')(req,res,(err)=>{
+    passport.authenticate('local',(err,user)=>{
         if(err){
-            console.log(err.message);
-            res.redirect('/login');
+            return next(err);
         }
-        res.redirect('/contact-list');
-    });
+        if(!user){
+            return res.redirect('/login');
+        }
+        req.login(user,(err)=>{
+            if(err){
+                return next(err);
+            }
+            return res.redirect('/contact-list');
+        });
+    })(req,res);
     console.log(req.session);
     
 }
 
 //Controllers handling the register page
 module.exports.registerGET = (req,res,next) =>{
-    res.render('auth/register',{title:"Login"});
+    res.render('auth/register',{title:"Register",logged: req.user ? req.user.username : ""});
 }
 module.exports.registerPOST = async(req,res,next) =>{
     try {
@@ -68,13 +76,20 @@ module.exports.registerPOST = async(req,res,next) =>{
         res.redirect('/register');
         console.log(error.message);
     }
-    passport.authenticate('local')(req,res,(err)=>{
+    passport.authenticate('local',(err,user)=>{
         if(err){
-            console.log(err.message);
-            res.redirect('/register');
+            return next(err);
         }
-        res.redirect('/contact-list');
-    });
+        if(!user){
+            return res.redirect('/register');
+        }
+        req.login(user,(err)=>{
+            if(err){
+                return next(err);
+            }
+            return res.redirect('/contact-list');
+        });
+    })(req,res);
     console.log(req.session);
 }
 

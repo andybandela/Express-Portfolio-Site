@@ -23,15 +23,21 @@
                             <td class="text-center"><%= contact.name %></td>
                             <td class="text-center"><%= contact.number %></td>
                             <td class="text-center"><%= contact.email %></td>
-                            <td class="text-center"><a href="/contact-list/update/<%= contact._id %>"><button type="button" class="btn btn-primary">Update</button></a></td>
-                            <td class="text-center"><a href="/contact-list/delete/<%= contact._id %>"><button type="button" class="btn btn-danger">Delete</button></a></td>
+                            <% if (typeof logged == "string" && logged) { %>
+                                <td class="text-center"><a href="/contact-list/update/<%= contact._id %>"><button type="button" class="btn btn-primary">Update</button></a></td>
+                                <td class="text-center"><a href="/contact-list/delete/<%= contact._id %>"><button type="button" class="btn btn-danger">Delete</button></a></td>
+                            <% } %>
+                            
                         </tr>
                     <% }) %>
                 </tbody>
             </table>
-            <div class="mb-3">
-                <a href="/contact-list/add"><button type="button" class="btn btn-secondary"> Add New Contact</button></a>
-            </div>
+            <% if (typeof logged == "string" && logged) { %>
+                <div class="mb-3">
+                    <a href="/contact-list/add"><button type="button" class="btn btn-secondary"> Add New Contact</button></a>
+                </div>
+            <% } %>
+            
         </div>
         
     </div>

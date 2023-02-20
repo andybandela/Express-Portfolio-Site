@@ -10,7 +10,9 @@ let Contact = require('../models/contact');
 module.exports.contactListRoot = async(req,res,next) =>{try {
     //Retrieving the data from the database and sorting in ascending order
     let contacts = await Contact.find({}).sort({name:1}).exec();
-    res.render('contact/list',{title:"Contact-List", contactList:contacts});
+    res.render('contact/list',{title:"Contact-List",
+    contactList:contacts,
+    logged: req.user ? req.user.username : ""});
 } catch (error) {
     console.log(error.message);
 }
@@ -18,7 +20,7 @@ module.exports.contactListRoot = async(req,res,next) =>{try {
 
 //Controller handling the Add page
 module.exports.addGET = async(req,res,next) =>{
-    res.render('contact/add',{title:"Add Contact"});
+    res.render('contact/add',{title:"Add Contact",logged: req.user ? req.user.username : ""});
 }
 module.exports.addPOST = async(req,res,next) =>{
     const cont = req.body;
@@ -41,7 +43,7 @@ module.exports.addPOST = async(req,res,next) =>{
 module.exports.updateGET = async(req,res,next)=>{
     try {
         const cont = await Contact.findById(req.params.id);
-        res.render('contact/update',{title:"Update Contact", contactDetail:cont})
+        res.render('contact/update',{title:"Update Contact", contactDetail:cont,logged: req.user ? req.user.username : ""})
     } catch (error) {
         console.log(error.message);
     }
