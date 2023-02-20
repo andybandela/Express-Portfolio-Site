@@ -20,4 +20,17 @@ router.get('/projects',indexController.projectsDisplay);
 //GET services page
 router.get('/services',indexController.servicesDisplay);
 
+//GET displaying the Login page
+router.get('/login',indexController.loginGET);
+//POST processing the Login page - READ operation
+router.post('/login',indexController.loginPOST);
+
+//GET displaying the Register page
+router.get('/register',indexController.registerGET);
+//POST processing the Register page - CREATE operation
+router.post('/register',indexController.registerPOST);
+
+//GET processing user logout
+router.get('/logout',indexController.logout);
+
 module.exports = router;

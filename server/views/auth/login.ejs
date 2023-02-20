@@ -1,0 +1,27 @@
+<%- include('../partials/header') %>
+<%- include('../partials/main-nav') %>
+
+<main class="container">
+    <div class="row">
+        <div class="offset-md-4 col-md-4">
+            <h1>Please Login</h1>
+            <form action="" method="post" autocomplete="off">
+                <fieldset class="form-group">
+                    <label for="username">Username :</label>
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Enter Username" required autofocus>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="password">Password :</label>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password" required>
+                </fieldset>
+                <fieldset class="form-group text-right">
+                    <input type="submit" value="Login" class="btn btn-primary">
+                    <a href="/"><button class="btn btn-warning">Cancel</button></a>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</main>
+
+<%- include('../partials/bottom-nav') %>
+<%- include('../partials/footer') %>

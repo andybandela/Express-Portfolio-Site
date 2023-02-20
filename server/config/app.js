@@ -6,6 +6,9 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 let mongoose = require('mongoose');
+let session = require('express-session');
+let passport = require('passport');
+let passportLocal = require('passport-local');
 
 //Database setup
 let db = require('./db');
@@ -45,6 +48,28 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../public')));
 app.use(express.static(path.join(__dirname,'../../node_modules')));
+
+//Setting up express-session
+app.use(session({
+  secret:"mySecretAuth",
+  saveUninitialized:false,
+  resave:false
+}));
+
+//initializing passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+//Instance of user model
+let user = require('../models/user');
+
+//passport user configuration
+passport.use(user.createStrategy());
+//Encrypting and Decrypting user info(password) using passport
+passport.serializeUser(user.serializeUser());
+passport.deserializeUser(user.deserializeUser());
 
 //Routing requests to the appropriate route using the imported middleware
 app.use('/', indexRouter);
